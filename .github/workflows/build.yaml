@@ -11,6 +11,7 @@ jobs:
     env:
       NETBOX_VERSION: v3.7.1
     steps:
+      - uses: actions/checkout@v4
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
@@ -39,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v5
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
-          context: "{{defaultContext}}:docker"
+          context: docker
           build-args: NETBOX_VERSION=${{ env.NETBOX_VERSION }}
           platforms: linux/amd64,linux/arm64
           push: true
