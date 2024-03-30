@@ -22,7 +22,14 @@ spec:
                 name: netbox-env
             - secretRef:
                 name: netbox-secret-key
+          volumeMounts:
+            - mountPath: /media
+              name: media
           args:
             - /opt/netbox/venv/bin/python
             - /opt/netbox/netbox/manage.py
             - rqworker
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: netbox-media

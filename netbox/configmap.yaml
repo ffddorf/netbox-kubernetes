@@ -16,3 +16,4 @@ data:
   REDIS_CACHE_HOST: redis
   SKIP_SUPERUSER: "true"
   WEBHOOKS_ENABLED: "true"
+  MEDIA_ROOT: /media

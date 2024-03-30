@@ -6,6 +6,7 @@ resources:
   - ../postgres
   - ../redis
   - configmap.yaml
+  - media.yaml
   - housekeeping.yaml
   - worker.yaml
   - server.yaml

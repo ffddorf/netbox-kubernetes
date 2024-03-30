@@ -22,5 +22,12 @@ spec:
                 name: netbox-env
             - secretRef:
                 name: netbox-secret-key
+          volumeMounts:
+            - mountPath: /media
+              name: media
           args:
             - /opt/netbox/housekeeping.sh
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: netbox-media
