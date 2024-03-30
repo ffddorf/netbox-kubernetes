@@ -10,9 +10,20 @@ spec:
   tls:
     - hosts:
         - netbox.ffddorf.net
+        - netbox.freifunk-duesseldorf.de
       secretName: netbox-cert
   rules:
     - host: netbox.ffddorf.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: netbox
+                port:
+                  number: 80
+    - host: netbox.freifunk-duesseldorf.de
       http:
         paths:
           - path: /
