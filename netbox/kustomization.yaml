@@ -5,3 +5,7 @@ resources:
   - namespace.yaml
   - ../postgres
   - ../redis
+  - configmap.yaml
+  - housekeeping.yaml
+  - worker.yaml
+  - server.yaml

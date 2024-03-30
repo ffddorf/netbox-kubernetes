@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbox-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netbox
+      role: server
+  template:
+    metadata:
+      labels:
+        app: netbox
+        role: server
+    spec:
+      initContainers:
+        - name: migrate
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/venv/bin/python
+            - /opt/netbox/netbox/manage.py
+            - migrate
+            - --no-input
+        - name: trace-paths
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/venv/bin/python
+            - /opt/netbox/netbox/manage.py
+            - trace_paths
+            - --no-input
+        - name: remove-stale-contenttypes
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/venv/bin/python
+            - /opt/netbox/netbox/manage.py
+            - remove_stale_contenttypes
+            - --no-input
+        - name: clearsessions
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/venv/bin/python
+            - /opt/netbox/netbox/manage.py
+            - clearsessions
+        - name: reindex
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/venv/bin/python
+            - /opt/netbox/netbox/manage.py
+            - reindex
+            - --lazy
+      containers:
+        - name: server
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /api/status/
+            periodSeconds: 5
+            failureThreshold: 3

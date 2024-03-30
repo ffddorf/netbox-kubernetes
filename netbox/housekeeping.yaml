@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbox-housekeeping
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netbox
+      role: housekeeping
+  template:
+    metadata:
+      labels:
+        app: netbox
+        role: housekeeping
+    spec:
+      containers:
+        - name: housekeeping
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/housekeeping.sh

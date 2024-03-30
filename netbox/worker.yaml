@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: netbox-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: netbox
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: netbox
+        role: worker
+    spec:
+      containers:
+        - name: worker
+          image: docker.io/netboxcommunity/netbox:v3.6.7
+          envFrom:
+            - configMapRef:
+                name: netbox-env
+            - secretRef:
+                name: netbox-secret-key
+          args:
+            - /opt/netbox/venv/bin/python
+            - /opt/netbox/netbox/manage.py
+            - rqworker
