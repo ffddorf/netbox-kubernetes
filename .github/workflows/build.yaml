@@ -13,6 +13,7 @@ jobs:
       NETBOX_VERSION: v3.7.1
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name == 'push'
         with:
           fetch-depth: 0
       - name: Get changed files
@@ -45,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v5
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
-          context: docker
+          context: "{{defaultContext}}:docker"
           build-args: NETBOX_VERSION=${{ env.NETBOX_VERSION }}
           platforms: linux/amd64,linux/arm64
           push: true
