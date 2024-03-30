@@ -13,14 +13,17 @@ jobs:
       NETBOX_VERSION: v3.7.1
     steps:
       - uses: actions/checkout@v4
+        if: github.event_name == 'push'
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v44
         with:
           since_last_remote_commit: true
-          files: docker/*
+          files: |
+            .github/workflows/build.yaml
+            docker/*
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -43,7 +46,7 @@ jobs:
         uses: docker/build-push-action@v5
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
-          context: docker
+          context: "{{defaultContext}}:docker"
           build-args: NETBOX_VERSION=${{ env.NETBOX_VERSION }}
           platforms: linux/amd64,linux/arm64
           push: true
