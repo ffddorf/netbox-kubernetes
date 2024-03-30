@@ -20,7 +20,9 @@ jobs:
         uses: tj-actions/changed-files@v44
         with:
           since_last_remote_commit: true
-          files: docker/*
+          files: |
+            .github/workflows/build.yaml
+            docker/*
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
