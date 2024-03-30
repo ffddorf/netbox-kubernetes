@@ -9,3 +9,5 @@ resources:
   - housekeeping.yaml
   - worker.yaml
   - server.yaml
+  - service.yaml
+  - ingress.yaml

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: netbox
+  labels:
+    app: netbox
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-http
+spec:
+  tls:
+    - hosts:
+        - netbox.ffddorf.net
+      secretName: netbox-cert
+  rules:
+    - host: netbox.ffddorf.net
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: netbox
+                port:
+                  number: 80
