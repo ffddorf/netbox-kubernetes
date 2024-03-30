@@ -1,6 +1,9 @@
 name: Build
 
-on: push
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
   docker:
@@ -8,6 +11,12 @@ jobs:
     env:
       NETBOX_VERSION: v3.7.1
     steps:
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+        with:
+          since_last_remote_commit: true
+          files: docker/*
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -28,6 +37,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v5
+        if: steps.changed-files.outputs.any_changed == 'true'
         with:
           context: "{{defaultContext}}:docker"
           build-args: NETBOX_VERSION=${{ env.NETBOX_VERSION }}
