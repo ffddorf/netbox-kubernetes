@@ -5,6 +5,8 @@ on: push
 jobs:
   docker:
     runs-on: ubuntu-latest
+    env:
+      NETBOX_VERSION: v3.7.1
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -16,13 +18,8 @@ jobs:
         with:
           images: ghcr.io/ffddorf/netbox-kubernetes
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
+            type=raw,value=${{ env.NETBOX_VERSION }},enable={{is_default_branch}}
+            type=sha,prefix=${{ env.NETBOX_VERSION }},format=short
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -33,6 +30,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: "{{defaultContext}}:docker"
+          build-args: NETBOX_VERSION=${{ env.NETBOX_VERSION }}
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}

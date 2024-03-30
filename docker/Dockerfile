@@ -1,5 +1,5 @@
 # pinned to specific release
-ARG NETBOX_VERSION=v3.7.1
+ARG NETBOX_VERSION
 FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS base
 
 COPY plugin_requirements.txt /opt/netbox/
