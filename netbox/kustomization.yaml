@@ -11,3 +11,6 @@ resources:
   - server.yaml
   - service.yaml
   - ingress.yaml
+images:
+  - name: docker.io/netboxcommunity/netbox
+    newTag: v3.7.1

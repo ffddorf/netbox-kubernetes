@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: housekeeping
-          image: docker.io/netboxcommunity/netbox:v3.6.7
+          image: docker.io/netboxcommunity/netbox
           envFrom:
             - configMapRef:
                 name: netbox-env
