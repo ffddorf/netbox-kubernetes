@@ -25,6 +25,10 @@ spec:
           volumeMounts:
             - mountPath: /media
               name: media
+            - mountPath: /opt/netbox/netbox/reports
+              name: reports
+            - mountPath: /opt/netbox/netbox/scripts
+              name: scripts
           ports:
             - name: http
               containerPort: 8080
@@ -38,3 +42,9 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: netbox-media
+        - name: reports
+          persistentVolumeClaim:
+            claimName: netbox-reports
+        - name: scripts
+          persistentVolumeClaim:
+            claimName: netbox-scripts

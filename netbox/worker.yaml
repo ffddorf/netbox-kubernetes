@@ -25,6 +25,10 @@ spec:
           volumeMounts:
             - mountPath: /media
               name: media
+            - mountPath: /opt/netbox/netbox/reports
+              name: reports
+            - mountPath: /opt/netbox/netbox/scripts
+              name: scripts
           args:
             - /opt/netbox/venv/bin/python
             - /opt/netbox/netbox/manage.py
@@ -33,3 +37,9 @@ spec:
         - name: media
           persistentVolumeClaim:
             claimName: netbox-media
+        - name: reports
+          persistentVolumeClaim:
+            claimName: netbox-reports
+        - name: scripts
+          persistentVolumeClaim:
+            claimName: netbox-scripts
