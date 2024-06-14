@@ -2,6 +2,10 @@
 ARG NETBOX_VERSION
 FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS base
 
+# Patch NGINX Unit config
+RUN apt-get update || true && apt-get install -yq jq
+RUN cat /etc/unit/nginx-unit.json | jq '.settings.http.max_body_size = 52428800' > /etc/unit/nginx-unit.json
+
 COPY plugin_requirements.txt /opt/netbox/
 RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/plugin_requirements.txt
 
