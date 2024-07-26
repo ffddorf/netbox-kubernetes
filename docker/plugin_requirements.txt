@@ -1,2 +1,2 @@
-netbox-secrets==1.10.2
+netbox-secrets==2.0.3
 netbox-bgp==0.12.1
