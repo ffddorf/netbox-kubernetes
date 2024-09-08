@@ -12,10 +12,10 @@ COPY plugin_requirements.txt extra_requirements.txt /opt/netbox/
 RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/plugin_requirements.txt && \
   /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/extra_requirements.txt
 
-# Add ipaddr filter from ansible
-RUN mkdir -p /etc/netbox/config/modules && \
-  curl --fail -L https://github.com/ansible-collections/ansible.utils/archive/main.tar.gz | tar -xz -C /etc/netbox/config/modules && \
-  mv /etc/netbox/config/modules/ansible.utils-main /etc/netbox/config/modules/ansible_utils
+# Add ansible.utils collection to use ipaddr filter
+RUN mkdir -p /etc/netbox/config/modules/ansible_collections/ansible && \
+  curl --fail -L https://github.com/ansible-collections/ansible.utils/archive/main.tar.gz | tar -xz -C . && \
+  mv ansible.utils-main /etc/netbox/config/modules/ansible_collections/ansible/utils
 ENV PYTHONPATH=/etc/netbox/config/modules
 
 COPY plugins.py extra.py /etc/netbox/config/

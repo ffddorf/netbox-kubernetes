@@ -1,5 +1,5 @@
-from ansible_utils.plugins.filter.ipaddr import _ipaddr
+from ansible_collections.ansible.utils.plugins.plugin_utils.base.ipaddr_utils import ipaddr
 
 JINJA2_FILTERS = {
-    'ipaddr': _ipaddr,
+    'ipaddr': ipaddr,
 }
