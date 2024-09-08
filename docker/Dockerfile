@@ -16,7 +16,7 @@ RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/pl
 RUN mkdir -p /etc/netbox/config/modules/ansible_collections/ansible && \
   curl --fail -L https://github.com/ansible-collections/ansible.utils/archive/main.tar.gz | tar -xz -C . && \
   mv ansible.utils-main /etc/netbox/config/modules/ansible_collections/ansible/utils && \
-  mkdir -p /tmp/.ansible && chmod -R a+rwx /tmp/.ansible
+  mkdir -p /tmp/.ansible/tmp && chmod -R a+rwx /tmp/.ansible
 ENV ANSIBLE_HOME=/tmp/.ansible
 
 COPY plugins.py extra.py /etc/netbox/config/
