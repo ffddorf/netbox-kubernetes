@@ -15,7 +15,8 @@ RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/pl
 # Add ansible.utils collection to use ipaddr filter
 RUN mkdir -p /etc/netbox/config/modules/ansible_collections/ansible && \
   curl --fail -L https://github.com/ansible-collections/ansible.utils/archive/main.tar.gz | tar -xz -C . && \
-  mv ansible.utils-main /etc/netbox/config/modules/ansible_collections/ansible/utils
+  mv ansible.utils-main /etc/netbox/config/modules/ansible_collections/ansible/utils && \
+  mkdir -p /root/.ansible && chmod -R 666 /root/.ansible
 
 COPY plugins.py extra.py /etc/netbox/config/
 RUN SECRET_KEY="dummydummydummydummydummydummydummydummydummydummy" /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py collectstatic --no-input
