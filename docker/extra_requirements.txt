@@ -1,2 +1,1 @@
-ansible-core
 unicode-slugify==0.1.5
