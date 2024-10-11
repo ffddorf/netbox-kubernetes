@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # renovate: datasource=docker depName=docker.io/netboxcommunity/netbox
-      NETBOX_VERSION: v4.0.9
+      NETBOX_VERSION: v4.0.11
     steps:
       - uses: actions/checkout@v4
         if: github.event_name == 'push'
