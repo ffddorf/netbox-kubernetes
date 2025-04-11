@@ -35,7 +35,7 @@ spec:
           readinessProbe:
             httpGet:
               port: http
-              path: /api/status/
+              path: /login/
             periodSeconds: 5
             failureThreshold: 3
       volumes:
