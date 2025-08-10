@@ -1,6 +1,6 @@
 # pinned to specific release
 ARG NETBOX_VERSION
-FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS base
+FROM --platform=$BUILDPLATFORM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS build
 
 # Patch NGINX Unit config
 RUN apt-get update || true && apt-get install -yq jq
@@ -15,3 +15,7 @@ RUN /usr/local/bin/uv pip install \
 
 COPY plugins.py extra.py /etc/netbox/config/
 RUN SECRET_KEY="dummydummydummydummydummydummydummydummydummydummy" /opt/netbox/venv/bin/python /opt/netbox/netbox/manage.py collectstatic --no-input
+
+FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS prod
+
+COPY --from=build /opt/netbox /opt/netbox
