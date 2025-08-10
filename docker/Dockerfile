@@ -26,6 +26,7 @@ COPY --from=build /etc/unit /etc/unit
 COPY --from=build /opt/netbox/netbox/static /opt/netbox/netbox/static
 
 # Install plugins for prod
+COPY plugin_requirements.txt extra_requirements.txt /opt/netbox/
 RUN /usr/local/bin/uv pip install \
   -r /opt/netbox/plugin_requirements.txt \
   -r /opt/netbox/extra_requirements.txt
