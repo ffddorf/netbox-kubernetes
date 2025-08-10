@@ -9,8 +9,9 @@ RUN jq -r '.settings.http.max_body_size = 52428800' /etc/unit/nginx-unit.json \
   mv /etc/unit/nginx-unit-edit.json /etc/unit/nginx-unit.json
 
 COPY plugin_requirements.txt extra_requirements.txt /opt/netbox/
-RUN /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/plugin_requirements.txt && \
-  /opt/netbox/venv/bin/pip install --no-warn-script-location -r /opt/netbox/extra_requirements.txt
+RUN /usr/local/bin/uv pip install \
+  -r /opt/netbox/plugin_requirements.txt \
+  -r /opt/netbox/extra_requirements.txt
 
 # Add ansible.utils collection to use ipaddr filter
 RUN mkdir -p /etc/netbox/config/modules/ansible_collections/ansible && \
