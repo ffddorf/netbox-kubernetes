@@ -18,4 +18,5 @@ RUN SECRET_KEY="dummydummydummydummydummydummydummydummydummydummy" /opt/netbox/
 
 FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS prod
 
+COPY --from=build /etc/unit /etc/unit
 COPY --from=build /opt/netbox /opt/netbox
