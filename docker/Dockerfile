@@ -1,5 +1,7 @@
 # pinned to specific release
 ARG NETBOX_VERSION
+FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS base
+
 FROM --platform=$BUILDPLATFORM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS build
 
 # Patch NGINX Unit config
@@ -20,3 +22,9 @@ FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS prod
 
 COPY --from=build /etc/unit /etc/unit
 COPY --from=build /opt/netbox /opt/netbox
+
+# Fix native dependencies
+COPY --from=base /opt/netbox/venv /opt/netbox/venv
+RUN /usr/local/bin/uv pip install \
+  -r /opt/netbox/plugin_requirements.txt \
+  -r /opt/netbox/extra_requirements.txt
