@@ -12,7 +12,7 @@ jobs:
       # renovate: datasource=docker depName=docker.io/netboxcommunity/netbox
       NETBOX_VERSION: v4.3.7
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
