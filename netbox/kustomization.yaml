@@ -9,7 +9,6 @@ resources:
   - media.yaml
   - reports.yaml
   - scripts.yaml
-  - housekeeping.yaml
   - worker.yaml
   - server.yaml
   - service.yaml
