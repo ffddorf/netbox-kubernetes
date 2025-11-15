@@ -4,8 +4,9 @@ FROM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS base
 
 FROM --platform=$BUILDPLATFORM docker.io/netboxcommunity/netbox:${NETBOX_VERSION} AS build
 
+RUN apt-get update || true && apt-get install -yq jq git-core
+
 # Patch NGINX Unit config
-RUN apt-get update || true && apt-get install -yq jq
 RUN jq -r '.settings.http.max_body_size = 52428800' /etc/unit/nginx-unit.json \
   > /etc/unit/nginx-unit-edit.json && \
   mv /etc/unit/nginx-unit-edit.json /etc/unit/nginx-unit.json
@@ -28,6 +29,7 @@ COPY --from=build /opt/netbox/netbox/static /opt/netbox/netbox/static
 # Install plugins and config for prod
 COPY plugins.py extra.py /etc/netbox/config/
 COPY plugin_requirements.txt extra_requirements.txt /opt/netbox/
+RUN apt-get update || true && apt-get install -yq git-core
 RUN /usr/local/bin/uv pip install \
   -r /opt/netbox/plugin_requirements.txt \
   -r /opt/netbox/extra_requirements.txt

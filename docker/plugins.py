@@ -1,4 +1,8 @@
-PLUGINS = ["netbox_secrets", "netbox_bgp"]
+PLUGINS = [
+    "netbox_secrets",
+    "netbox_bgp",
+    "netbox_healthcheck_plugin",
+]
 
 PLUGINS_CONFIG = {
     'netbox_bgp': {
@@ -7,4 +11,5 @@ PLUGINS_CONFIG = {
     'netbox_secrets': {
         'display_default': 'right_page',
     },
+    'netbox_healthcheck_plugin': {},
 }
