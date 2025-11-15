@@ -16,4 +16,4 @@ resources:
 images:
   - name: docker.io/netboxcommunity/netbox
     newName: ghcr.io/ffddorf/netbox-kubernetes
-    newTag: v4.4.6-931828b
+    newTag: v4.4.6-99cebda
