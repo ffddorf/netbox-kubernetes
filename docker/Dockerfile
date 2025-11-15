@@ -26,6 +26,7 @@ COPY --from=build /etc/unit /etc/unit
 COPY --from=build /opt/netbox/netbox/static /opt/netbox/netbox/static
 
 # Install plugins and config for prod
+COPY worker_healthcheck.py /opt/netbox/netbox/netbox/config/
 COPY plugins.py extra.py /etc/netbox/config/
 COPY plugin_requirements.txt extra_requirements.txt /opt/netbox/
 RUN /usr/local/bin/uv pip install \

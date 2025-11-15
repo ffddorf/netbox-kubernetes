@@ -33,6 +33,16 @@ spec:
             - /opt/netbox/venv/bin/python
             - /opt/netbox/netbox/manage.py
             - rqworker
+            - --worker-class=netbox.config.worker_healthcheck.HealthcheckedRQWorker
+          readinessProbe: &probe
+            httpGet:
+              port: 8000
+              path: /
+            periodSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            <<: *probe
+            failureThreshold: 10
       volumes:
         - name: media
           persistentVolumeClaim:
