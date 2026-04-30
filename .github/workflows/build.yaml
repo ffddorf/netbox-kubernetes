@@ -12,7 +12,7 @@ jobs:
       # renovate: datasource=docker depName=docker.io/netboxcommunity/netbox
       NETBOX_VERSION: v4.4.10
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         if: github.event_name == 'push'
         with:
           fetch-depth: 0
@@ -25,14 +25,14 @@ jobs:
             .github/workflows/build.yaml
             docker/*
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
         if: steps.changed-files.outputs.any_changed == 'true'
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4
         if: steps.changed-files.outputs.any_changed == 'true'
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           images: ghcr.io/ffddorf/netbox-kubernetes
@@ -40,14 +40,14 @@ jobs:
             type=raw,value=${{ env.NETBOX_VERSION }},enable={{is_default_branch}}
             type=sha,prefix=${{ env.NETBOX_VERSION }}-,format=short
       - name: Login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         if: steps.changed-files.outputs.any_changed == 'true'
         with:
           context: "{{defaultContext}}:docker"
